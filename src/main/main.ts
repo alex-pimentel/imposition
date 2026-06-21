@@ -15,6 +15,9 @@ import log from 'electron-log';
 import MenuBuilder from './menu';
 import { resolveHtmlPath } from './util';
 
+app.disableHardwareAcceleration();
+app.commandLine.appendSwitch('disable-gpu');
+
 class AppUpdater {
   constructor() {
     log.transports.file.level = 'info';
@@ -44,16 +47,22 @@ if (isDebug) {
 }
 
 const installExtensions = async () => {
-  const installer = require('electron-devtools-installer');
-  const forceDownload = !!process.env.UPGRADE_EXTENSIONS;
-  const extensions = ['REACT_DEVELOPER_TOOLS'];
+  if (process.env.SKIP_EXTENSIONS === 'true') {
+    return;
+  }
 
-  return installer
-    .default(
+  try {
+    const installer = require('electron-devtools-installer');
+    const forceDownload = !!process.env.UPGRADE_EXTENSIONS;
+    const extensions = ['REACT_DEVELOPER_TOOLS'];
+
+    await installer.default(
       extensions.map((name) => installer[name]),
       forceDownload,
-    )
-    .catch(console.log);
+    );
+  } catch (error) {
+    console.log('Skipping devtools installer:', error);
+  }
 };
 
 const createWindow = async () => {
@@ -71,8 +80,10 @@ const createWindow = async () => {
 
   mainWindow = new BrowserWindow({
     show: false,
-    width: 1024,
-    height: 728,
+    width: 1400,
+    height: 980,
+    minWidth: 1100,
+    minHeight: 800,
     icon: getAssetPath('icon.png'),
     webPreferences: {
       preload: app.isPackaged
