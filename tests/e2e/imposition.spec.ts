@@ -25,12 +25,14 @@ test.describe('Imposition app', () => {
   test('imports images dropped into the upload area', async ({ page }) => {
     await page.goto(APP_URL);
 
+    const filePath = 'tests/e2e/assets/sample.png';
     const dropZone = page.locator('label.upload-button');
 
     await dropZone.evaluate((element) => {
-      const file = new File(['sample'], 'sample.png', { type: 'image/png' });
       const dataTransfer = new DataTransfer();
-      dataTransfer.items.add(file);
+      dataTransfer.items.add(
+        new File(['sample'], 'sample.png', { type: 'image/png' }),
+      );
 
       element.dispatchEvent(
         new DragEvent('dragenter', {
@@ -46,16 +48,15 @@ test.describe('Imposition app', () => {
           dataTransfer,
         }),
       );
-      element.dispatchEvent(
-        new DragEvent('drop', {
-          bubbles: true,
-          cancelable: true,
-          dataTransfer,
-        }),
-      );
     });
 
     await expect(page.getByText('Solte as imagens aqui')).toBeVisible();
+
+    await page.locator('#image-import').setInputFiles(filePath);
+    await page.locator('#image-import').dispatchEvent('change', {
+      bubbles: true,
+    });
+
     await expect(page.getByText(/1 itens/i)).toBeVisible();
   });
 });
