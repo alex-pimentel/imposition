@@ -430,14 +430,10 @@ export default function App() {
         format: 'a4',
       });
 
-      items.forEach((item, index) => {
+      items.forEach((item) => {
         const { widthMm, heightMm } = item;
         const xMm = pxToMm(item.x);
         const yMm = pxToMm(item.y);
-
-        if (index > 0) {
-          pdf.addPage();
-        }
 
         pdf.addImage(
           item.src,
