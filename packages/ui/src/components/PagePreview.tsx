@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useRef } from 'react';
 import { useImpositionStore } from '../store';
 import { PreviewItem } from './PreviewItem';
 import { useDrag } from '../hooks/useDrag';

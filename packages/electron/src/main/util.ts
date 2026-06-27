@@ -1,4 +1,4 @@
-/* eslint import/prefer-default-export: off */
+
 import { URL } from 'url';
 import path from 'path';
 

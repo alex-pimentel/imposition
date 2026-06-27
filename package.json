@@ -1,7 +1,14 @@
 {
   "name": "imposition",
   "description": "A4 image imposition and PDF export — Electron + Web",
-  "keywords": ["electron", "imposition", "react", "typescript", "pdf", "layout"],
+  "keywords": [
+    "electron",
+    "imposition",
+    "react",
+    "typescript",
+    "pdf",
+    "layout"
+  ],
   "homepage": "https://github.com/alex-pimentel/imposition#readme",
   "bugs": {
     "url": "https://github.com/alex-pimentel/imposition/issues"
@@ -27,6 +34,9 @@
     "lint": "eslint packages/"
   },
   "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^8.62.0",
+    "@typescript-eslint/parser": "^8.62.0",
+    "eslint": "^10.6.0",
     "typescript": "^5.8.2"
   },
   "engines": {

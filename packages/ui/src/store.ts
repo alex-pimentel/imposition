@@ -10,7 +10,6 @@ import {
   findFreeSpot,
   calculateUtilization,
   pxToMm,
-  mmToPx,
 } from '@imposition/core';
 
 export type ImpositionState = {

@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { mmToPx, visualBBox, clampPosition, roundPxToMm } from '@imposition/core';
+import { mmToPx, clampPosition, roundPxToMm } from '@imposition/core';
 import { useImpositionStore } from '../store';
 
 export function useDrag() {

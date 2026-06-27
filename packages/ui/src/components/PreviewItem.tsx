@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import type { ImpositionItem } from '@imposition/core';
 import { mmToPx } from '@imposition/core';
 import { useImpositionStore, selectSelectedItem } from '../store';
