@@ -27,7 +27,7 @@ module.exports = {
         moduleDirectory: ['node_modules', 'src/'],
       },
       webpack: {
-        config: require.resolve('./.erb/configs/webpack.config.eslint.ts'),
+        config: require.resolve('./packages/electron/.erb/configs/webpack.config.eslint.ts'),
       },
       typescript: {},
     },

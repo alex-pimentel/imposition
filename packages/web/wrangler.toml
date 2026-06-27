@@ -1,0 +1,9 @@
+name = "imposition"
+compatibility_date = "2025-06-01"
+pages_build_output_dir = "dist"
+account_id = "ff7a0c1a2afb85b131e6a932bdb7a760"
+
+[env.production]
+routes = [
+  { pattern = "imposition.pimentel.dev", custom_domain = true }
+]

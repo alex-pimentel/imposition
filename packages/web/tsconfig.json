@@ -6,14 +6,12 @@
     "lib": ["dom", "es2022"],
     "jsx": "react-jsx",
     "strict": true,
-    "sourceMap": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,
     "allowJs": true,
     "skipLibCheck": true,
-    "declaration": true,
-    "declarationMap": true
+    "noEmit": true
   },
-  "exclude": ["node_modules", "dist", "release"]
+  "include": ["src"]
 }
