@@ -1,6 +1,13 @@
 import type { ImpositionItem } from '@imposition/core';
 import { mmToPx } from '@imposition/core';
-import { Copy, RotateCw, Layers, AlignCenterHorizontal, AlignCenterVertical, Trash2 } from 'lucide-react';
+import {
+  Copy,
+  RotateCw,
+  Layers,
+  AlignCenterHorizontal,
+  AlignCenterVertical,
+  Trash2,
+} from 'lucide-react';
 import { useImpositionStore, selectSelectedItem } from '../store';
 import { useDrag } from '../hooks/useDrag';
 import { useRotate } from '../hooks/useRotate';
@@ -79,7 +86,7 @@ export function PreviewItem({
   };
 
   const handleRotate90 = () => {
-    const newRotation = ((item.rotation + 90) % 360 + 360) % 360;
+    const newRotation = (((item.rotation + 90) % 360) + 360) % 360;
     updateItem(item.id, {
       rotation: newRotation,
       widthMm: item.heightMm,

@@ -10,12 +10,7 @@ import { UnitToggle } from './UnitToggle';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Label } from './ui/label';
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from './ui/tooltip';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from './ui/tooltip';
 
 export function Sidebar() {
   const items = useImpositionStore((s) => s.items);
@@ -51,9 +46,7 @@ export function Sidebar() {
               <TooltipTrigger asChild>
                 <HelpCircle size={12} className="cursor-help text-sidebar-foreground/50" />
               </TooltipTrigger>
-              <TooltipContent>
-                Default value applied to new items.
-              </TooltipContent>
+              <TooltipContent>Default value applied to new items.</TooltipContent>
             </Tooltip>
           </TooltipProvider>
         </div>

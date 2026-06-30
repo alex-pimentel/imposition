@@ -16,14 +16,12 @@ export const visualBBox = (wPx: number, hPx: number, rotation: number) => {
   return { w: wPx * cos + hPx * sin, h: wPx * sin + hPx * cos };
 };
 
-export const mmToUnit = (mm: number, unit: 'mm' | 'cm') =>
-  unit === 'cm' ? mm / 10 : mm;
+export const mmToUnit = (mm: number, unit: 'mm' | 'cm') => (unit === 'cm' ? mm / 10 : mm);
 
 export const unitToMm = (value: number, unit: 'mm' | 'cm') =>
   Math.round(unit === 'cm' ? value * 10 : value);
 
-export const makeId = () =>
-  Math.random().toString(36).slice(2, 9) + Date.now().toString(36);
+export const makeId = () => Math.random().toString(36).slice(2, 9) + Date.now().toString(36);
 
 export const clampPosition = (
   x: number,

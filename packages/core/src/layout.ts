@@ -5,8 +5,7 @@ import { mmToPx, roundPxToMm } from './utils';
 const rectsOverlap = (
   a: { left: number; top: number; right: number; bottom: number },
   b: { left: number; top: number; right: number; bottom: number },
-) =>
-  a.left < b.right && a.right > b.left && a.top < b.bottom && a.bottom > b.top;
+) => a.left < b.right && a.right > b.left && a.top < b.bottom && a.bottom > b.top;
 
 export const findFreeSpot = (
   items: ImpositionItem[],
@@ -43,9 +42,19 @@ export const findFreeSpot = (
 
 export const placeItems = (
   sourceItems: ImpositionItem[],
-  options: { randomize?: boolean; pageMarginMm?: number; pageWidthPx?: number; pageHeightPx?: number } = {},
+  options: {
+    randomize?: boolean;
+    pageMarginMm?: number;
+    pageWidthPx?: number;
+    pageHeightPx?: number;
+  } = {},
 ) => {
-  const { randomize = false, pageMarginMm, pageWidthPx = PAGE_WIDTH_PX, pageHeightPx = PAGE_HEIGHT_PX } = options;
+  const {
+    randomize = false,
+    pageMarginMm,
+    pageWidthPx = PAGE_WIDTH_PX,
+    pageHeightPx = PAGE_HEIGHT_PX,
+  } = options;
   const marginPx = mmToPx(pageMarginMm ?? DEFAULT_MARGIN_MM);
   const gapPx = mmToPx(pageMarginMm !== undefined ? pageMarginMm / 2 : DEFAULT_GAP_MM);
   const items = sourceItems.map((item) => ({ ...item }));

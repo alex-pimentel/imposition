@@ -1,6 +1,7 @@
 # Data Model
 
 ## Image item
+
 - `id`: unique identifier
 - `name`: file name
 - `src`: file path or base64 URL
@@ -11,6 +12,7 @@
 - `rotation`: applied rotation
 
 ## Page
+
 - `pageSize`: defaults to A4
 - `pageMarginMm`: page-level margin applied during auto placement
 - `layoutMode`: manual or automatic

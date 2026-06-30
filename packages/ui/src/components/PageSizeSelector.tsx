@@ -2,13 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useImpositionStore } from '../store';
 import { Input } from './ui/input';
 import { Label } from './ui/label';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from './ui/select';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 import { mmToUnit, unitToMm } from '@imposition/core';
 
 const PAGE_PRESETS = {
@@ -57,9 +51,10 @@ export function PageSizeSelector() {
           <SelectValue />
         </SelectTrigger>
         <SelectContent>
-           {(Object.keys(PAGE_PRESETS) as PresetKey[]).map((key) => (
+          {(Object.keys(PAGE_PRESETS) as PresetKey[]).map((key) => (
             <SelectItem key={key} value={key} className="text-xs">
-              {PAGE_PRESETS[key].label} ({mmToUnit(PAGE_PRESETS[key].widthMm, unit)}&times;{mmToUnit(PAGE_PRESETS[key].heightMm, unit)} {unit})
+              {PAGE_PRESETS[key].label} ({mmToUnit(PAGE_PRESETS[key].widthMm, unit)}&times;
+              {mmToUnit(PAGE_PRESETS[key].heightMm, unit)} {unit})
             </SelectItem>
           ))}
           <SelectItem value="custom" className="text-xs">

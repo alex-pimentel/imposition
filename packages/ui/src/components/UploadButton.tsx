@@ -55,9 +55,7 @@ export function UploadButton() {
     >
       <UploadCloud size={20} className="text-muted-foreground" />
       <span className="text-xs font-medium text-muted-foreground">
-        {isDragging
-          ? 'Drop images here'
-          : 'Drag or click to import'}
+        {isDragging ? 'Drop images here' : 'Drag or click to import'}
       </span>
       <input
         id="image-import"

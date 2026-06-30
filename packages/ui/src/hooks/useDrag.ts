@@ -2,9 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { mmToPx, pxToMm, clampPosition, roundPxToMm, visualBBox } from '@imposition/core';
 import { useImpositionStore } from '../store';
 
-export type Guideline =
-  | { axis: 'x'; x: number }
-  | { axis: 'y'; y: number };
+export type Guideline = { axis: 'x'; x: number } | { axis: 'y'; y: number };
 
 const SNAP_THRESHOLD = 8;
 
@@ -144,15 +142,14 @@ export function useDrag() {
       const rawX = roundPxToMm(dragStart.current.origX + dx);
       const rawY = roundPxToMm(dragStart.current.origY + dy);
 
-      const others = state.items.filter(
-        (i) => i.id !== dragId && i.copies > 0,
-      );
+      const others = state.items.filter((i) => i.id !== dragId && i.copies > 0);
 
-      const { x: snappedX, y: snappedY, guidelines: snaps } = state.interactiveGrid
-        ? findSnaps(
-            { x: rawX, y: rawY, w, h, rotation: item.rotation },
-            others,
-          )
+      const {
+        x: snappedX,
+        y: snappedY,
+        guidelines: snaps,
+      } = state.interactiveGrid
+        ? findSnaps({ x: rawX, y: rawY, w, h, rotation: item.rotation }, others)
         : { x: rawX, y: rawY, guidelines: [] as Guideline[] };
 
       const clamped = clampPosition(snappedX, snappedY, w, h, item.rotation);

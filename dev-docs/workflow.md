@@ -1,6 +1,7 @@
 # Usage Flow
 
 ## Main scenario
+
 1. The user imports images in JPG, PNG, or WEBP format.
 2. The system calculates initial dimensions and creates items in the list.
 3. The user adjusts size, copies, position, and rotation.
@@ -9,6 +10,7 @@
 6. The result can be exported to PDF.
 
 ## Planned improvements
+
 - multiple page support
 - automatic project saving
 - PDF preview before exporting

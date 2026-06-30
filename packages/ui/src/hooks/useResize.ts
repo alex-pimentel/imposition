@@ -5,9 +5,16 @@ import { useImpositionStore } from '../store';
 export function useResize() {
   const [resizeId, setResizeId] = useState<string | null>(null);
   const resizeStart = useRef({
-    x: 0, y: 0, origW: 0, origH: 0,
-    vpOffsetX: 0, vpOffsetY: 0,
-    pfCx: 0, pfCy: 0, pfLeft: 0, pfTop: 0,
+    x: 0,
+    y: 0,
+    origW: 0,
+    origH: 0,
+    vpOffsetX: 0,
+    vpOffsetY: 0,
+    pfCx: 0,
+    pfCy: 0,
+    pfLeft: 0,
+    pfTop: 0,
   });
 
   const startResize = (

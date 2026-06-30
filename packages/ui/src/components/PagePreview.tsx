@@ -92,13 +92,14 @@ export function PagePreview() {
     width: `${pageW}px`,
     height: `${pageH}px`,
     backgroundColor: '#ffffff',
-    ...(interactiveGrid ? {
-      backgroundImage: (
-        'linear-gradient(to right, rgba(156,163,175,0.25) 1px, transparent 1px),' +
-        'linear-gradient(to bottom, rgba(156,163,175,0.25) 1px, transparent 1px)'
-      ),
-      backgroundSize: `${GRID_STEP}px ${GRID_STEP}px`,
-    } : {}),
+    ...(interactiveGrid
+      ? {
+          backgroundImage:
+            'linear-gradient(to right, rgba(156,163,175,0.25) 1px, transparent 1px),' +
+            'linear-gradient(to bottom, rgba(156,163,175,0.25) 1px, transparent 1px)',
+          backgroundSize: `${GRID_STEP}px ${GRID_STEP}px`,
+        }
+      : {}),
   };
 
   return (
@@ -117,11 +118,7 @@ export function PagePreview() {
           <span className="text-xs font-medium text-muted-foreground">Canvas</span>
         </div>
         <div className="flex items-center gap-2">
-          <Switch
-            id="grid-switch"
-            checked={interactiveGrid}
-            onCheckedChange={setInteractiveGrid}
-          />
+          <Switch id="grid-switch" checked={interactiveGrid} onCheckedChange={setInteractiveGrid} />
           <Label htmlFor="grid-switch" className="cursor-pointer text-xs text-muted-foreground">
             Grid
           </Label>
@@ -135,11 +132,7 @@ export function PagePreview() {
             transform: `translate(${pan.x}px, ${pan.y}px) scale(${zoom})`,
           }}
         >
-          <div
-            className="page-frame relative shadow-xl"
-            ref={pageFrameRef}
-            style={pageStyle}
-          >
+          <div className="page-frame relative shadow-xl" ref={pageFrameRef} style={pageStyle}>
             {visibleItems.map((item) => (
               <PreviewItem
                 key={item.id}

@@ -1,10 +1,5 @@
 import { useImpositionStore, selectTotalCopies, selectUtilization } from '../store';
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from './ui/tooltip';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from './ui/tooltip';
 import { HelpCircle } from 'lucide-react';
 
 export function Gauge() {
@@ -22,27 +17,20 @@ export function Gauge() {
   return (
     <div className="w-56 rounded-xl border border-border bg-card/95 p-4 shadow-lg backdrop-blur">
       <div className="mb-2 flex items-center justify-between">
-        <span className="text-sm font-semibold text-card-foreground">
-          Sheet Summary
-        </span>
+        <span className="text-sm font-semibold text-card-foreground">Sheet Summary</span>
         <TooltipProvider delayDuration={200}>
           <Tooltip>
             <TooltipTrigger asChild>
               <HelpCircle size={14} className="cursor-help text-muted-foreground" />
             </TooltipTrigger>
-            <TooltipContent>
-              Indicates the utilization of the A4 page area.
-            </TooltipContent>
+            <TooltipContent>Indicates the utilization of the A4 page area.</TooltipContent>
           </Tooltip>
         </TooltipProvider>
       </div>
 
       <div className="flex items-center gap-4">
         <div className="relative flex h-24 w-24 items-end justify-center">
-          <svg
-            viewBox="0 0 100 60"
-            className="absolute inset-0 h-full w-full overflow-visible"
-          >
+          <svg viewBox="0 0 100 60" className="absolute inset-0 h-full w-full overflow-visible">
             <path
               d="M 10 50 A 40 40 0 0 1 90 50"
               fill="none"
@@ -61,9 +49,7 @@ export function Gauge() {
               className="transition-all duration-500"
             />
           </svg>
-          <span className="mb-2 text-2xl font-bold text-card-foreground">
-            {parentCount}
-          </span>
+          <span className="mb-2 text-2xl font-bold text-card-foreground">{parentCount}</span>
         </div>
 
         <div className="flex flex-col gap-0.5 text-xs text-muted-foreground">

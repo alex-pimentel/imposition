@@ -8,12 +8,8 @@ test.describe('Imposition app', () => {
 
     await expect(page).toHaveTitle(/Imposition|Hello Electron React/i);
     await expect(page.getByText('Imposition')).toBeVisible();
-    await expect(
-      page.getByRole('button', { name: /Posicionar automaticamente/i }),
-    ).toBeVisible();
-    await expect(
-      page.getByRole('button', { name: /Exportar PDF/i }),
-    ).toBeVisible();
+    await expect(page.getByRole('button', { name: /Posicionar automaticamente/i })).toBeVisible();
+    await expect(page.getByRole('button', { name: /Exportar PDF/i })).toBeVisible();
   });
 
   test('shows empty state before importing images', async ({ page }) => {
@@ -30,9 +26,7 @@ test.describe('Imposition app', () => {
 
     await dropZone.evaluate((element) => {
       const dataTransfer = new DataTransfer();
-      dataTransfer.items.add(
-        new File(['sample'], 'sample.png', { type: 'image/png' }),
-      );
+      dataTransfer.items.add(new File(['sample'], 'sample.png', { type: 'image/png' }));
 
       element.dispatchEvent(
         new DragEvent('dragenter', {

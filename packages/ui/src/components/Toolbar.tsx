@@ -1,25 +1,11 @@
 import { Trash2, RefreshCw, HelpCircle } from 'lucide-react';
-import {
-  pxToMm,
-  mmToPx,
-  visualBBox,
-  clamp,
-} from '@imposition/core';
-import {
-  useImpositionStore,
-  selectSelectedItem,
-  selectDisplayCopies,
-} from '../store';
+import { pxToMm, mmToPx, visualBBox, clamp } from '@imposition/core';
+import { useImpositionStore, selectSelectedItem, selectDisplayCopies } from '../store';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Label } from './ui/label';
 import { Slider } from './ui/slider';
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from './ui/tooltip';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from './ui/tooltip';
 
 function FieldTip({ children }: { children: React.ReactNode }) {
   return (
@@ -51,9 +37,7 @@ export function Toolbar() {
           <p className="text-[0.65rem] font-semibold uppercase tracking-wider text-muted-foreground">
             Selected
           </p>
-          <h2 className="text-sm font-semibold text-card-foreground">
-            No item selected
-          </h2>
+          <h2 className="text-sm font-semibold text-card-foreground">No item selected</h2>
         </div>
       </section>
     );
@@ -65,11 +49,7 @@ export function Toolbar() {
     const oldHorizontal = oldRotation % 180 < 1;
     const newHorizontal = newRotation % 180 < 1;
 
-    if (
-      oldHorizontal !== newHorizontal &&
-      oldRotation % 90 < 1 &&
-      newRotation % 90 < 1
-    ) {
+    if (oldHorizontal !== newHorizontal && oldRotation % 90 < 1 && newRotation % 90 < 1) {
       updateItem(selectedItem.id, {
         rotation: newRotation,
         widthMm: selectedItem.heightMm,
@@ -86,11 +66,7 @@ export function Toolbar() {
     const vb = visualBBox(w, h, selectedItem.rotation);
     const pageWPx = mmToPx(pageWidthMm);
     updateItem(selectedItem.id, {
-      x: clamp(
-        mmToPx(value),
-        vb.w / 2 - w / 2,
-        pageWPx - w / 2 - vb.w / 2,
-      ),
+      x: clamp(mmToPx(value), vb.w / 2 - w / 2, pageWPx - w / 2 - vb.w / 2),
     });
   };
 
@@ -100,11 +76,7 @@ export function Toolbar() {
     const vb = visualBBox(w, h, selectedItem.rotation);
     const pageHPx = mmToPx(pageHeightMm);
     updateItem(selectedItem.id, {
-      y: clamp(
-        mmToPx(value),
-        vb.h / 2 - h / 2,
-        pageHPx - h / 2 - vb.h / 2,
-      ),
+      y: clamp(mmToPx(value), vb.h / 2 - h / 2, pageHPx - h / 2 - vb.h / 2),
     });
   };
 
@@ -122,11 +94,7 @@ export function Toolbar() {
           </h2>
         </div>
         <div className="flex items-center gap-2">
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => removeFromList(targetId)}
-          >
+          <Button variant="outline" size="sm" onClick={() => removeFromList(targetId)}>
             <Trash2 size={14} className="mr-1.5" />
             Remove
           </Button>
@@ -192,9 +160,7 @@ export function Toolbar() {
             value={displayCopies}
             min={1}
             step={1}
-            onChange={(e) =>
-              updateCopies(targetId, Math.max(1, Number(e.target.value || 1)))
-            }
+            onChange={(e) => updateCopies(targetId, Math.max(1, Number(e.target.value || 1)))}
           />
         </div>
 
@@ -203,9 +169,7 @@ export function Toolbar() {
             <Label htmlFor="rotation-deg" className="text-xs text-muted-foreground">
               Rotation (°)
             </Label>
-            <FieldTip>
-              Rotation in degrees. Values between 0° and 360°.
-            </FieldTip>
+            <FieldTip>Rotation in degrees. Values between 0° and 360°.</FieldTip>
           </div>
           <div className="flex items-center gap-2">
             <Input

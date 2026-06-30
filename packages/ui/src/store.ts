@@ -12,8 +12,6 @@ import {
   pxToMm,
   mmToPx,
   clampPosition,
-  PAGE_WIDTH_PX,
-  PAGE_HEIGHT_PX,
 } from '@imposition/core';
 
 export type CanvasView = {
@@ -127,9 +125,7 @@ export const useImpositionStore = create<ImpositionStore>((set, get) => ({
       }),
     );
 
-    const validItems = loaded.filter(
-      (item): item is ImpositionItem => item !== null,
-    );
+    const validItems = loaded.filter((item): item is ImpositionItem => item !== null);
     if (validItems.length > 0) {
       set((state) => ({ items: [...state.items, ...validItems] }));
     }
@@ -137,17 +133,13 @@ export const useImpositionStore = create<ImpositionStore>((set, get) => ({
 
   updateItem: (id, updates) => {
     set((state) => ({
-      items: state.items.map((item) =>
-        item.id === id ? { ...item, ...updates } : item,
-      ),
+      items: state.items.map((item) => (item.id === id ? { ...item, ...updates } : item)),
     }));
   },
 
   removeFromList: (id) => {
     set((state) => {
-      const filtered = state.items.filter(
-        (item) => item.id !== id && item.parentId !== id,
-      );
+      const filtered = state.items.filter((item) => item.id !== id && item.parentId !== id);
       const parents = filtered.filter((item) => !item.parentId);
       const newSelectedId =
         state.selectedId === id ||
@@ -175,7 +167,14 @@ export const useImpositionStore = create<ImpositionStore>((set, get) => ({
 
       const newId = makeId();
       const sheetItems = state.items.filter((item) => item.copies > 0);
-      const pos = findFreeSpot(sheetItems, parent.widthMm, parent.heightMm, pageMargin, pageW, pageH);
+      const pos = findFreeSpot(
+        sheetItems,
+        parent.widthMm,
+        parent.heightMm,
+        pageMargin,
+        pageW,
+        pageH,
+      );
 
       const newItem: ImpositionItem = {
         ...parent,
@@ -247,23 +246,16 @@ export const useImpositionStore = create<ImpositionStore>((set, get) => ({
       const parent = state.items.find((item) => item.id === parentId);
       if (!parent) return state;
 
-      const withoutCopies = state.items.filter(
-        (item) => item.parentId !== parentId,
-      );
+      const withoutCopies = state.items.filter((item) => item.parentId !== parentId);
 
       if (safeCopies === 0) {
         return {
-          items: [
-            { ...parent, copies: 0 },
-            ...withoutCopies.filter((i) => i.id !== parentId),
-          ],
+          items: [{ ...parent, copies: 0 }, ...withoutCopies.filter((i) => i.id !== parentId)],
         };
       }
 
       const targetCount = safeCopies - 1;
-      const existingCopies = state.items.filter(
-        (item) => item.parentId === parentId,
-      );
+      const existingCopies = state.items.filter((item) => item.parentId === parentId);
       const keptCopies = existingCopies.slice(0, targetCount);
 
       const newCopyItems: ImpositionItem[] = [];
@@ -303,7 +295,12 @@ export const useImpositionStore = create<ImpositionStore>((set, get) => ({
     const pageW = mmToPx(pageWidthMm);
     const pageH = mmToPx(pageHeightMm);
     const sheetItems = items.filter((item) => item.copies > 0);
-    const placed = placeItems(sheetItems, { randomize: false, pageMarginMm, pageWidthPx: pageW, pageHeightPx: pageH });
+    const placed = placeItems(sheetItems, {
+      randomize: false,
+      pageMarginMm,
+      pageWidthPx: pageW,
+      pageHeightPx: pageH,
+    });
 
     const placedMap = new Map(placed.map((item) => [item.id, item]));
     set({
@@ -360,12 +357,8 @@ export const useImpositionStore = create<ImpositionStore>((set, get) => ({
         const rad = (-item.rotation * Math.PI) / 180;
         const cos = Math.cos(rad);
         const sin = Math.sin(rad);
-        const nx = xMm + widthMm / 2
-          - (widthMm / 2) * cos
-          + (heightMm / 2) * sin;
-        const ny = yMm - heightMm / 2
-          + (widthMm / 2) * sin
-          + (heightMm / 2) * cos;
+        const nx = xMm + widthMm / 2 - (widthMm / 2) * cos + (heightMm / 2) * sin;
+        const ny = yMm - heightMm / 2 + (widthMm / 2) * sin + (heightMm / 2) * cos;
 
         pdf.addImage(
           item.src,
@@ -414,5 +407,4 @@ export const selectUtilization = (state: ImpositionStore) =>
 
 export const selectCanvasView = (state: ImpositionStore) => state.canvasView;
 
-export const selectInteractiveGrid = (state: ImpositionStore) =>
-  state.interactiveGrid;
+export const selectInteractiveGrid = (state: ImpositionStore) => state.interactiveGrid;

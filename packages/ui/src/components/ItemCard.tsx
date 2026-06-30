@@ -14,8 +14,7 @@ export function ItemCard({ item }: ItemCardProps) {
   const updateCopies = useImpositionStore((s) => s.updateCopies);
   const removeFromList = useImpositionStore((s) => s.removeFromList);
 
-  const isSelected =
-    selectedItem?.id === item.id || selectedItem?.parentId === item.id;
+  const isSelected = selectedItem?.id === item.id || selectedItem?.parentId === item.id;
 
   return (
     <div
@@ -36,9 +35,7 @@ export function ItemCard({ item }: ItemCardProps) {
           className="h-12 w-12 shrink-0 rounded-lg object-cover"
         />
         <div className="min-w-0 flex-1">
-          <p className="truncate text-sm font-medium text-card-foreground">
-            {item.name}
-          </p>
+          <p className="truncate text-sm font-medium text-card-foreground">{item.name}</p>
           <p className="text-xs text-muted-foreground">
             {item.copies} {item.copies === 1 ? 'copy' : 'copies'}
           </p>

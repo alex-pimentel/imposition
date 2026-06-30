@@ -73,17 +73,17 @@
 
 ## 🛠️ Stack
 
-| Layer | Technology |
-|---|---|
-| **Desktop** | [Electron 35](https://www.electronjs.org/) + [Webpack 5](https://webpack.js.org/) |
-| **Web** | [Vite 6](https://vite.dev/) + [React 19](https://react.dev/) |
-| **Language** | [TypeScript 5.8](https://www.typescriptlang.org/) |
-| **State** | [Zustand 5](https://github.com/pmndrs/zustand) |
-| **PDF** | [jsPDF 4](https://github.com/parallax/jsPDF) |
-| **Layout** | Custom deterministic algorithm (optional randomness) |
-| **Container** | [Docker Compose](https://docs.docker.com/compose/) |
-| **CI/CD** | [GitHub Actions](https://github.com/features/actions) |
-| **Deploy** | [Cloudflare Pages](https://pages.cloudflare.com/) |
+| Layer         | Technology                                                                        |
+| ------------- | --------------------------------------------------------------------------------- |
+| **Desktop**   | [Electron 35](https://www.electronjs.org/) + [Webpack 5](https://webpack.js.org/) |
+| **Web**       | [Vite 6](https://vite.dev/) + [React 19](https://react.dev/)                      |
+| **Language**  | [TypeScript 5.8](https://www.typescriptlang.org/)                                 |
+| **State**     | [Zustand 5](https://github.com/pmndrs/zustand)                                    |
+| **PDF**       | [jsPDF 4](https://github.com/parallax/jsPDF)                                      |
+| **Layout**    | Custom deterministic algorithm (optional randomness)                              |
+| **Container** | [Docker Compose](https://docs.docker.com/compose/)                                |
+| **CI/CD**     | [GitHub Actions](https://github.com/features/actions)                             |
+| **Deploy**    | [Cloudflare Pages](https://pages.cloudflare.com/)                                 |
 
 ---
 
@@ -195,6 +195,7 @@ The web version is deployed on **Cloudflare Pages**.
 [![Cloudflare Pages](https://img.shields.io/badge/Cloudflare%20Pages-F38020?style=for-the-badge&logo=Cloudflare&logoColor=white)](https://pages.cloudflare.com/)
 
 Manual deploy:
+
 ```bash
 npm run build -w packages/web
 npx wrangler pages deploy packages/web/dist --project-name=imposition
