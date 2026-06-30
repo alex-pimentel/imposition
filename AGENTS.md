@@ -22,7 +22,7 @@ This repository contains an Electron application for assembling and imposing ima
 - `npm run dev -w packages/web` — dev server web (Vite)
 - `npm run build -w packages/electron` — build Electron (main + renderer)
 - `npm start -w packages/electron` — dev server Electron (webpack)
-- `npx wrangler pages deploy packages/web/dist --project-name=imposition` — manual deploy
+- `npx wrangler pages deploy packages/web/dist --project-name=imposition` — manual deploy (deploy oficial é via GitHub Actions; não usar CLI)
 
 ## Important Notes
 - the app must accept JPG, PNG, and WEBP
