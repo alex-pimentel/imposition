@@ -1,15 +1,15 @@
-# Fluxo de uso
+# Usage Flow
 
-## Cenário principal
-1. O usuário importa imagens no formato JPG, PNG ou WEBP.
-2. O sistema calcula dimensões iniciais e cria itens na lista.
-3. O usuário ajusta tamanho, cópias, posição e rotação.
-4. O usuário pode usar posicionamento automático ou manual.
-5. O aplicativo mostra o aproveitamento da área.
-6. O resultado pode ser exportado para PDF.
+## Main scenario
+1. The user imports images in JPG, PNG, or WEBP format.
+2. The system calculates initial dimensions and creates items in the list.
+3. The user adjusts size, copies, position, and rotation.
+4. The user can use auto placement or manual placement.
+5. The application shows area utilization.
+6. The result can be exported to PDF.
 
-## Melhorias planejadas
-- suporte a múltiplas páginas
-- salvamento automático do projeto
-- pré-visualização de PDF antes de exportar
-- histórico de layouts
+## Planned improvements
+- multiple page support
+- automatic project saving
+- PDF preview before exporting
+- layout history

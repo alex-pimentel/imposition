@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { mmToPx, pxToMm, clamp, PAGE_WIDTH_PX, PAGE_HEIGHT_PX } from '@imposition/core';
+import { mmToPx, pxToMm, clamp } from '@imposition/core';
 import { useImpositionStore } from '../store';
 
 export function useResize() {
@@ -37,14 +37,17 @@ export function useResize() {
     if (resizeId === null) return;
 
     const handleMouseMove = (e: MouseEvent) => {
-      const item = useImpositionStore.getState().items.find((i) => i.id === resizeId);
+      const state = useImpositionStore.getState();
+      const item = state.items.find((i) => i.id === resizeId);
       if (!item) return;
 
+      const pageWPx = mmToPx(state.pageWidthMm);
+      const pageHPx = mmToPx(state.pageHeightMm);
       const rad = (-item.rotation * Math.PI) / 180;
       const cos = Math.cos(rad);
       const sin = Math.sin(rad);
-      const mousePx = clamp(e.clientX - resizeStart.current.vpOffsetX, 0, PAGE_WIDTH_PX);
-      const mousePy = clamp(e.clientY - resizeStart.current.vpOffsetY, 0, PAGE_HEIGHT_PX);
+      const mousePx = clamp(e.clientX - resizeStart.current.vpOffsetX, 0, pageWPx);
+      const mousePy = clamp(e.clientY - resizeStart.current.vpOffsetY, 0, pageHPx);
       const dx = mousePx - resizeStart.current.pfCx;
       const dy = mousePy - resizeStart.current.pfCy;
       const localDx = dx * cos - dy * sin;

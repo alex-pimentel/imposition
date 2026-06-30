@@ -4,8 +4,6 @@ import {
   mmToPx,
   visualBBox,
   clamp,
-  PAGE_WIDTH_PX,
-  PAGE_HEIGHT_PX,
 } from '@imposition/core';
 import {
   useImpositionStore,
@@ -43,16 +41,18 @@ export function Toolbar() {
   const removeFromList = useImpositionStore((s) => s.removeFromList);
   const resetLayout = useImpositionStore((s) => s.resetLayout);
   const updateCopies = useImpositionStore((s) => s.updateCopies);
+  const pageWidthMm = useImpositionStore((s) => s.pageWidthMm);
+  const pageHeightMm = useImpositionStore((s) => s.pageHeightMm);
 
   if (!selectedItem) {
     return (
       <section className="rounded-xl border border-border bg-card p-4 shadow-sm">
         <div>
           <p className="text-[0.65rem] font-semibold uppercase tracking-wider text-muted-foreground">
-            Selecionado
+            Selected
           </p>
           <h2 className="text-sm font-semibold text-card-foreground">
-            Nenhum item selecionado
+            No item selected
           </h2>
         </div>
       </section>
@@ -84,11 +84,12 @@ export function Toolbar() {
     const w = mmToPx(selectedItem.widthMm);
     const h = mmToPx(selectedItem.heightMm);
     const vb = visualBBox(w, h, selectedItem.rotation);
+    const pageWPx = mmToPx(pageWidthMm);
     updateItem(selectedItem.id, {
       x: clamp(
         mmToPx(value),
         vb.w / 2 - w / 2,
-        PAGE_WIDTH_PX - w / 2 - vb.w / 2,
+        pageWPx - w / 2 - vb.w / 2,
       ),
     });
   };
@@ -97,11 +98,12 @@ export function Toolbar() {
     const w = mmToPx(selectedItem.widthMm);
     const h = mmToPx(selectedItem.heightMm);
     const vb = visualBBox(w, h, selectedItem.rotation);
+    const pageHPx = mmToPx(pageHeightMm);
     updateItem(selectedItem.id, {
       y: clamp(
         mmToPx(value),
         vb.h / 2 - h / 2,
-        PAGE_HEIGHT_PX - h / 2 - vb.h / 2,
+        pageHPx - h / 2 - vb.h / 2,
       ),
     });
   };
@@ -113,7 +115,7 @@ export function Toolbar() {
       <div className="flex items-center justify-between gap-4">
         <div>
           <p className="text-[0.65rem] font-semibold uppercase tracking-wider text-muted-foreground">
-            Editor de item
+            Item editor
           </p>
           <h2 className="max-w-md truncate text-sm font-semibold text-card-foreground">
             {selectedItem.name}
@@ -138,17 +140,21 @@ export function Toolbar() {
       <div className="mt-4 flex flex-wrap items-end gap-4">
         <div className="flex w-24 flex-col gap-1.5">
           <Label htmlFor="width-mm" className="text-xs text-muted-foreground">
-            Largura (mm)
+            Width (mm)
           </Label>
           <Input
             id="width-mm"
             type="number"
             value={selectedItem.widthMm}
-            min={5}
             step={1}
             onChange={(e) =>
               updateItem(selectedItem.id, {
-                widthMm: Math.max(5, Number(e.target.value || 0)),
+                widthMm: Number(e.target.value || 0),
+              })
+            }
+            onBlur={() =>
+              updateItem(selectedItem.id, {
+                widthMm: Math.max(5, selectedItem.widthMm),
               })
             }
           />
@@ -156,17 +162,21 @@ export function Toolbar() {
 
         <div className="flex w-24 flex-col gap-1.5">
           <Label htmlFor="height-mm" className="text-xs text-muted-foreground">
-            Altura (mm)
+            Height (mm)
           </Label>
           <Input
             id="height-mm"
             type="number"
             value={selectedItem.heightMm}
-            min={5}
             step={1}
             onChange={(e) =>
               updateItem(selectedItem.id, {
-                heightMm: Math.max(5, Number(e.target.value || 0)),
+                heightMm: Number(e.target.value || 0),
+              })
+            }
+            onBlur={() =>
+              updateItem(selectedItem.id, {
+                heightMm: Math.max(5, selectedItem.heightMm),
               })
             }
           />
@@ -174,7 +184,7 @@ export function Toolbar() {
 
         <div className="flex w-20 flex-col gap-1.5">
           <Label htmlFor="copies-count" className="text-xs text-muted-foreground">
-            Cópias
+            Copies
           </Label>
           <Input
             id="copies-count"
@@ -191,10 +201,10 @@ export function Toolbar() {
         <div className="flex w-40 flex-col gap-2">
           <div className="flex items-center gap-1.5">
             <Label htmlFor="rotation-deg" className="text-xs text-muted-foreground">
-              Rotação (°)
+              Rotation (°)
             </Label>
             <FieldTip>
-              Rotação em graus. Valores entre 0° e 360°.
+              Rotation in degrees. Values between 0° and 360°.
             </FieldTip>
           </div>
           <div className="flex items-center gap-2">
@@ -217,29 +227,6 @@ export function Toolbar() {
               className="flex-1"
             />
           </div>
-        </div>
-
-        <div className="flex w-24 flex-col gap-1.5">
-          <div className="flex items-center gap-1.5">
-            <Label htmlFor="margin-mm" className="text-xs text-muted-foreground">
-              Margem (mm)
-            </Label>
-            <FieldTip>
-              Espaço mínimo ao redor do item ao posicionar automaticamente.
-            </FieldTip>
-          </div>
-          <Input
-            id="margin-mm"
-            type="number"
-            value={selectedItem.marginMm}
-            min={0}
-            step={1}
-            onChange={(e) =>
-              updateItem(selectedItem.id, {
-                marginMm: Math.max(0, Number(e.target.value || 0)),
-              })
-            }
-          />
         </div>
 
         <div className="flex w-24 flex-col gap-1.5">

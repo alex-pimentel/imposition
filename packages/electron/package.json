@@ -63,7 +63,7 @@
     "webpack-merge": "^6.0.1"
   },
   "build": {
-    "productName": "Montador A4",
+    "productName": "Imposition",
     "appId": "com.imposition.app",
     "asar": true,
     "asarUnpack": "**\\*.{node,dll}",

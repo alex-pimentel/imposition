@@ -13,6 +13,8 @@ export const findFreeSpot = (
   widthMm: number,
   heightMm: number,
   pageMarginMm = 8,
+  pageWidthPx = PAGE_WIDTH_PX,
+  pageHeightPx = PAGE_HEIGHT_PX,
 ) => {
   const marginPx = mmToPx(pageMarginMm);
   const gapPx = mmToPx(pageMarginMm / 2);
@@ -27,8 +29,8 @@ export const findFreeSpot = (
     bottom: item.y + mmToPx(item.heightMm) + gapPx,
   }));
 
-  for (let y = marginPx; y + hPx <= PAGE_HEIGHT_PX - marginPx; y += stepPx) {
-    for (let x = marginPx; x + wPx <= PAGE_WIDTH_PX - marginPx; x += stepPx) {
+  for (let y = marginPx; y + hPx <= pageHeightPx - marginPx; y += stepPx) {
+    for (let x = marginPx; x + wPx <= pageWidthPx - marginPx; x += stepPx) {
       const candidate = { left: x, top: y, right: x + wPx, bottom: y + hPx };
       if (!occupied.some((r) => rectsOverlap(candidate, r))) {
         return { x: roundPxToMm(x), y: roundPxToMm(y) };
@@ -41,9 +43,9 @@ export const findFreeSpot = (
 
 export const placeItems = (
   sourceItems: ImpositionItem[],
-  options: { randomize?: boolean; pageMarginMm?: number } = {},
+  options: { randomize?: boolean; pageMarginMm?: number; pageWidthPx?: number; pageHeightPx?: number } = {},
 ) => {
-  const { randomize = false, pageMarginMm } = options;
+  const { randomize = false, pageMarginMm, pageWidthPx = PAGE_WIDTH_PX, pageHeightPx = PAGE_HEIGHT_PX } = options;
   const marginPx = mmToPx(pageMarginMm ?? DEFAULT_MARGIN_MM);
   const gapPx = mmToPx(pageMarginMm !== undefined ? pageMarginMm / 2 : DEFAULT_GAP_MM);
   const items = sourceItems.map((item) => ({ ...item }));
@@ -58,8 +60,8 @@ export const placeItems = (
     const widthPx = mmToPx(item.widthMm);
     const heightPx = mmToPx(item.heightMm);
 
-    const rightBoundary = PAGE_WIDTH_PX - marginPx;
-    const bottomBoundary = PAGE_HEIGHT_PX - marginPx;
+    const rightBoundary = pageWidthPx - marginPx;
+    const bottomBoundary = pageHeightPx - marginPx;
 
     if (cursorX === 0 && cursorY === 0) {
       cursorX = marginPx;

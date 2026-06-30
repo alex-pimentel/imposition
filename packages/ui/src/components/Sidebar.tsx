@@ -1,9 +1,12 @@
 import { useMemo } from 'react';
 import { Zap, Download, HelpCircle } from 'lucide-react';
+import { mmToUnit, unitToMm } from '@imposition/core';
 import { useImpositionStore } from '../store';
 import { UploadButton } from './UploadButton';
 import { ItemCard } from './ItemCard';
 import { StatsCard } from './StatsCard';
+import { PageSizeSelector } from './PageSizeSelector';
+import { UnitToggle } from './UnitToggle';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Label } from './ui/label';
@@ -21,20 +24,51 @@ export function Sidebar() {
   const exportPdf = useImpositionStore((s) => s.exportPdf);
   const pageMarginMm = useImpositionStore((s) => s.pageMarginMm);
   const setPageMargin = useImpositionStore((s) => s.setPageMargin);
+  const unit = useImpositionStore((s) => s.unit);
 
   return (
-    <aside className="flex w-[360px] shrink-0 flex-col gap-4 border-r border-border bg-sidebar p-4 text-sidebar-foreground">
-      <div>
-        <p className="text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-sidebar-foreground/60">
-          Imposição
-        </p>
-        <h1 className="text-2xl font-semibold tracking-tight text-sidebar-foreground">
-          Montador A4
-        </h1>
+    <aside className="flex w-[360px] shrink-0 flex-col gap-4 border-r border-sidebar-border bg-sidebar p-4 text-sidebar-foreground">
+      <a
+        href="https://agenteresolve.com.br"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="self-start rounded-lg transition-opacity hover:opacity-80"
+      >
+        <img src="/logo_agenteresolve.png" alt="AgenteResolve" className="h-8 w-auto" />
+      </a>
+
+      <PageSizeSelector />
+
+      <UnitToggle />
+
+      <div className="flex flex-col gap-1.5">
+        <div className="flex items-center gap-1.5">
+          <Label htmlFor="page-margin" className="text-xs text-sidebar-foreground/80">
+            Page margin ({unit})
+          </Label>
+          <TooltipProvider delayDuration={200}>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <HelpCircle size={12} className="cursor-help text-sidebar-foreground/50" />
+              </TooltipTrigger>
+              <TooltipContent>
+                Default value applied to new items.
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+        </div>
+        <Input
+          id="page-margin"
+          type="number"
+          value={mmToUnit(pageMarginMm, unit)}
+          min={0}
+          step={unit === 'cm' ? 0.1 : 1}
+          onChange={(e) => setPageMargin(unitToMm(Number(e.target.value || 0), unit))}
+        />
       </div>
 
       <div className="space-y-1">
-        <p className="text-xs font-medium text-sidebar-foreground/80">Importar imagens</p>
+        <p className="text-xs font-medium text-sidebar-foreground/80">Import images</p>
         <p className="text-[0.7rem] text-sidebar-foreground/50">PNG · JPG · WEBP</p>
       </div>
 
@@ -43,42 +77,13 @@ export function Sidebar() {
       <div className="flex flex-col gap-2">
         <Button variant="secondary" onClick={autoPlace} className="w-full justify-start gap-2">
           <Zap size={16} />
-          Posicionar automaticamente
+          Auto place
         </Button>
       </div>
 
-      <div className="flex flex-col gap-1.5">
-        <div className="flex items-center gap-1.5">
-          <Label htmlFor="page-margin" className="text-xs text-sidebar-foreground/80">
-            Margem da página (mm)
-          </Label>
-          <TooltipProvider delayDuration={200}>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <HelpCircle size={12} className="cursor-help text-sidebar-foreground/50" />
-              </TooltipTrigger>
-              <TooltipContent>
-                Valor padrão aplicado a novos itens.
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
-        </div>
-        <Input
-          id="page-margin"
-          type="number"
-          value={pageMarginMm}
-          min={0}
-          step={1}
-          onChange={(e) => setPageMargin(Number(e.target.value || 0))}
-        />
-      </div>
-
-      <Button
-        onClick={exportPdf}
-        className="w-full justify-center gap-2 bg-emerald-600 text-white hover:bg-emerald-700"
-      >
+      <Button onClick={exportPdf} className="w-full justify-center gap-2">
         <Download size={16} />
-        Generate Optimized PDF
+        Export PDF
       </Button>
 
       <StatsCard />

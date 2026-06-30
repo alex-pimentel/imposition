@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { useImpositionStore } from '../store';
 import { PreviewItem } from './PreviewItem';
 import { useDrag } from '../hooks/useDrag';
@@ -20,9 +20,12 @@ export function PagePreview() {
   const setInteractiveGrid = useImpositionStore((s) => s.setInteractiveGrid);
   const canvasView = useImpositionStore((s) => s.canvasView);
   const setCanvasPan = useImpositionStore((s) => s.setCanvasPan);
+  const pageWidthMm = useImpositionStore((s) => s.pageWidthMm);
+  const pageHeightMm = useImpositionStore((s) => s.pageHeightMm);
   const pageFrameRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const panStart = useRef<{ x: number; y: number; panX: number; panY: number } | null>(null);
+  const fitted = useRef(false);
   const dragHook = useDrag();
   const rotateHook = useRotate();
   const resizeHook = useResize();
@@ -69,7 +72,25 @@ export function PagePreview() {
 
   const { zoom, pan } = canvasView;
 
+  const pageW = mmToPx(pageWidthMm);
+  const pageH = mmToPx(pageHeightMm);
+
+  useEffect(() => {
+    if (fitted.current || !containerRef.current) return;
+    fitted.current = true;
+    const el = containerRef.current;
+    const availableH = el.clientHeight - 48;
+    const fitZoom = Math.min(1, (availableH - 40) / pageH);
+    const rounded = Math.round(fitZoom * 100) / 100;
+    useImpositionStore.getState().setFittedZoom(rounded);
+    if (fitZoom < 1) {
+      useImpositionStore.getState().setCanvasZoom(rounded);
+    }
+  }, [pageH]);
+
   const pageStyle: React.CSSProperties = {
+    width: `${pageW}px`,
+    height: `${pageH}px`,
     backgroundColor: '#ffffff',
     ...(interactiveGrid ? {
       backgroundImage: (

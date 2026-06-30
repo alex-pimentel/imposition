@@ -1,33 +1,33 @@
 # AGENTS.md
 
-## Objetivo do projeto
-Este repositório contém uma aplicação Electron para montagem e imposição de imagens em páginas A4, com exportação para PDF.
+## Project Goal
+This repository contains an Electron application for assembling and imposing images on A4 pages, with PDF export.
 
-## Regras de desenvolvimento
-- mantenha a interface simples, clara e focada em produtividade
-- preserve o fluxo de arraste e soltar para importação
-- priorize a consistência entre preview e exportação
-- sempre valide alterações com lint/build quando possível
-- documente mudanças importantes em `dev-docs`
+## Development Rules
+- keep the interface simple, clear, and focused on productivity
+- preserve the drag-and-drop import flow
+- prioritize consistency between preview and export
+- always validate changes with lint/build when possible
+- document important changes in `dev-docs`
 
-## Estrutura principal
-- `packages/core` — lógica pura compartilhada (types, utils, layout algorithm)
-- `packages/ui` — componentes React, hooks, store zustand, CSS
-- `packages/electron` — app Electron (main + preload + renderer entry + webpack)
-- `packages/web` — app Web (Vite + entry point + wrangler.toml)
-- `dev-docs` — documentação técnica e operacional
+## Main Structure
+- `packages/core` — shared pure logic (types, utils, layout algorithm)
+- `packages/ui` — React components, hooks, zustand store, CSS
+- `packages/electron` — Electron app (main + preload + renderer entry + webpack)
+- `packages/web` — Web app (Vite + entry point + wrangler.toml)
+- `dev-docs` — technical and operational documentation
 
 ## Commands
-- `npm run build -w packages/web` — build web para Cloudflare Pages
+- `npm run build -w packages/web` — build web for Cloudflare Pages
 - `npm run dev -w packages/web` — dev server web (Vite)
 - `npm run build -w packages/electron` — build Electron (main + renderer)
 - `npm start -w packages/electron` — dev server Electron (webpack)
-- `npx wrangler pages deploy packages/web/dist --project-name=imposition` — deploy manual
+- `npx wrangler pages deploy packages/web/dist --project-name=imposition` — manual deploy
 
-## Observações importantes
-- o app deve aceitar JPG, PNG e WEBP
-- a página base inicial é A4
-- o posicionamento automático deve ser determinístico e permitir tentativas com aleatoriedade
-- a exportação para PDF deve refletir exatamente o layout visual
-- ao alterar packages/core ou packages/ui, verificar build dos dois consumers (web + electron)
-- nunca usar `workspace:*` (npm não suporta); usar `"*"` para referenciar workspace packages
+## Important Notes
+- the app must accept JPG, PNG, and WEBP
+- the default page is A4
+- auto placement must be deterministic and allow randomized attempts
+- PDF export must exactly reflect the visual layout
+- when changing packages/core or packages/ui, verify the build of both consumers (web + electron)
+- never use `workspace:*` (npm does not support it); use `"*"` to reference workspace packages

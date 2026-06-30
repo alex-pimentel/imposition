@@ -6,8 +6,8 @@ test.describe('Imposition app', () => {
   test('renders the main layout and controls', async ({ page }) => {
     await page.goto(APP_URL);
 
-    await expect(page).toHaveTitle(/Montador A4|Hello Electron React/i);
-    await expect(page.getByText('Montador A4')).toBeVisible();
+    await expect(page).toHaveTitle(/Imposition|Hello Electron React/i);
+    await expect(page.getByText('Imposition')).toBeVisible();
     await expect(
       page.getByRole('button', { name: /Posicionar automaticamente/i }),
     ).toBeVisible();

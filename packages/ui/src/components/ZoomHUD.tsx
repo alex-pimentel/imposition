@@ -33,7 +33,7 @@ export function ZoomHUD() {
         size="icon"
         className="h-8 w-8"
         onClick={resetCanvasView}
-        title="Resetar visualização"
+        title="Reset view"
       >
         <X size={16} />
       </Button>

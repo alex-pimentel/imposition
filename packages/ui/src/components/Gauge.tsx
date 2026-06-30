@@ -23,7 +23,7 @@ export function Gauge() {
     <div className="w-56 rounded-xl border border-border bg-card/95 p-4 shadow-lg backdrop-blur">
       <div className="mb-2 flex items-center justify-between">
         <span className="text-sm font-semibold text-card-foreground">
-          Resumo da Folha
+          Sheet Summary
         </span>
         <TooltipProvider delayDuration={200}>
           <Tooltip>
@@ -31,7 +31,7 @@ export function Gauge() {
               <HelpCircle size={14} className="cursor-help text-muted-foreground" />
             </TooltipTrigger>
             <TooltipContent>
-              Indica o aproveitamento da área útil da página A4.
+              Indicates the utilization of the A4 page area.
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>
@@ -68,9 +68,9 @@ export function Gauge() {
 
         <div className="flex flex-col gap-0.5 text-xs text-muted-foreground">
           <span className="font-medium text-card-foreground">
-            {parentCount} imagens · {totalCopies} itens
+            {parentCount} images · {totalCopies} items
           </span>
-          <span>{utilization.toFixed(1)}% aproveitamento</span>
+          <span>{utilization.toFixed(1)}% utilization</span>
         </div>
       </div>
     </div>

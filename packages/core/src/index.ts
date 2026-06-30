@@ -16,6 +16,8 @@ export {
   visualBBox,
   makeId,
   clampPosition,
+  mmToUnit,
+  unitToMm,
 } from './utils';
 export { findFreeSpot, placeItems } from './layout';
 export {

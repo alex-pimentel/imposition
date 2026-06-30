@@ -163,7 +163,7 @@ export function PreviewItem({
           <div
             role="button"
             tabIndex={0}
-            aria-label="Rotacionar"
+            aria-label="Rotate"
             className="absolute z-20 h-4 w-4 -translate-x-1/2 -translate-y-1/2 cursor-crosshair rounded-full border-2 border-background bg-primary shadow transition-transform hover:scale-125"
             style={{ left: rotX, top: rotY }}
             onMouseDown={handleRotateStart}
@@ -176,7 +176,7 @@ export function PreviewItem({
           <div
             role="button"
             tabIndex={0}
-            aria-label="Redimensionar"
+            aria-label="Resize"
             className="absolute z-20 h-4 w-4 -translate-x-1/2 -translate-y-1/2 cursor-nwse-resize rounded-sm border-2 border-background bg-primary shadow transition-transform hover:scale-125"
             style={{ left: resX, top: resY }}
             onMouseDown={handleResizeStart}

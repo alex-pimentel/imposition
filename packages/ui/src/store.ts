@@ -28,6 +28,10 @@ export type ImpositionState = {
   interactiveGrid: boolean;
   canvasView: CanvasView;
   pageMarginMm: number;
+  pageWidthMm: number;
+  pageHeightMm: number;
+  unit: 'mm' | 'cm';
+  fittedZoom: number;
 };
 
 export type ImpositionActions = {
@@ -38,11 +42,14 @@ export type ImpositionActions = {
 
   setInteractiveGrid: (value: boolean) => void;
   setPageMargin: (margin: number) => void;
+  setPageSize: (widthMm: number, heightMm: number) => void;
+  setUnit: (unit: 'mm' | 'cm') => void;
   updateCopies: (parentId: string, newCopies: number) => void;
   autoPlace: () => void;
   resetLayout: () => void;
   resetCanvasView: () => void;
   setCanvasZoom: (zoom: number) => void;
+  setFittedZoom: (zoom: number) => void;
   setCanvasPan: (pan: { x: number; y: number }) => void;
   duplicateItem: (id: string) => void;
   sendToBack: (id: string) => void;
@@ -62,15 +69,23 @@ const DEFAULT_CANVAS_VIEW: CanvasView = {
 export const useImpositionStore = create<ImpositionStore>((set, get) => ({
   items: [],
   selectedId: '',
-  interactiveGrid: true,
+  interactiveGrid: false,
   canvasView: DEFAULT_CANVAS_VIEW,
   pageMarginMm: 8,
+  pageWidthMm: 210,
+  pageHeightMm: 297,
+  unit: 'mm',
+  fittedZoom: 1,
 
   setSelectedId: (id) => set({ selectedId: id }),
 
   setInteractiveGrid: (value) => set({ interactiveGrid: value }),
 
   setPageMargin: (margin) => set({ pageMarginMm: Math.max(0, margin) }),
+
+  setPageSize: (widthMm, heightMm) => set({ pageWidthMm: widthMm, pageHeightMm: heightMm }),
+
+  setUnit: (unit) => set({ unit }),
 
   selectFirst: () => {
     const { items, selectedId } = get();
@@ -86,7 +101,6 @@ export const useImpositionStore = create<ImpositionStore>((set, get) => ({
     const fileArray = Array.from(files).filter(isAcceptedImageFile);
     if (fileArray.length === 0) return;
 
-    const pageMargin = get().pageMarginMm;
     const loaded = await Promise.all(
       fileArray.map(async (file): Promise<ImpositionItem | null> => {
         try {
@@ -105,7 +119,6 @@ export const useImpositionStore = create<ImpositionStore>((set, get) => ({
             x: 0,
             y: 0,
             rotation: 0,
-            marginMm: pageMargin,
           };
         } catch (err) {
           console.error('Falha ao processar imagem', file.name, err);
@@ -148,7 +161,9 @@ export const useImpositionStore = create<ImpositionStore>((set, get) => ({
   },
 
   duplicateItem: (id) => {
-    const pageMargin = get().pageMarginMm;
+    const { pageMarginMm: pageMargin, pageWidthMm, pageHeightMm } = get();
+    const pageW = mmToPx(pageWidthMm);
+    const pageH = mmToPx(pageHeightMm);
     set((state) => {
       const source = state.items.find((item) => item.id === id);
       if (!source) return state;
@@ -160,7 +175,7 @@ export const useImpositionStore = create<ImpositionStore>((set, get) => ({
 
       const newId = makeId();
       const sheetItems = state.items.filter((item) => item.copies > 0);
-      const pos = findFreeSpot(sheetItems, parent.widthMm, parent.heightMm, pageMargin);
+      const pos = findFreeSpot(sheetItems, parent.widthMm, parent.heightMm, pageMargin, pageW, pageH);
 
       const newItem: ImpositionItem = {
         ...parent,
@@ -202,16 +217,18 @@ export const useImpositionStore = create<ImpositionStore>((set, get) => ({
       const item = state.items.find((i) => i.id === id);
       if (!item) return state;
 
+      const pageW = mmToPx(state.pageWidthMm);
+      const pageH = mmToPx(state.pageHeightMm);
       const w = mmToPx(item.widthMm);
       const h = mmToPx(item.heightMm);
-      const centerX = PAGE_WIDTH_PX / 2 - w / 2;
-      const centerY = PAGE_HEIGHT_PX / 2 - h / 2;
+      const centerX = pageW / 2 - w / 2;
+      const centerY = pageH / 2 - h / 2;
 
       const next = { ...item };
       if (axis === 'x') next.x = centerX;
       if (axis === 'y') next.y = centerY;
 
-      const clamped = clampPosition(next.x, next.y, w, h, next.rotation);
+      const clamped = clampPosition(next.x, next.y, w, h, next.rotation, pageW, pageH);
       next.x = clamped.x;
       next.y = clamped.y;
 
@@ -223,7 +240,9 @@ export const useImpositionStore = create<ImpositionStore>((set, get) => ({
 
   updateCopies: (parentId, newCopies) => {
     const safeCopies = Math.max(0, newCopies);
-    const pageMargin = get().pageMarginMm;
+    const { pageMarginMm: pageMargin, pageWidthMm, pageHeightMm } = get();
+    const pageW = mmToPx(pageWidthMm);
+    const pageH = mmToPx(pageHeightMm);
     set((state) => {
       const parent = state.items.find((item) => item.id === parentId);
       if (!parent) return state;
@@ -254,6 +273,8 @@ export const useImpositionStore = create<ImpositionStore>((set, get) => ({
           parent.widthMm,
           parent.heightMm,
           pageMargin,
+          pageW,
+          pageH,
         );
         newCopyItems.push({
           ...parent,
@@ -278,9 +299,11 @@ export const useImpositionStore = create<ImpositionStore>((set, get) => ({
   },
 
   autoPlace: () => {
-    const { items, pageMarginMm } = get();
+    const { items, pageMarginMm, pageWidthMm, pageHeightMm } = get();
+    const pageW = mmToPx(pageWidthMm);
+    const pageH = mmToPx(pageHeightMm);
     const sheetItems = items.filter((item) => item.copies > 0);
-    const placed = placeItems(sheetItems, { randomize: false, pageMarginMm });
+    const placed = placeItems(sheetItems, { randomize: false, pageMarginMm, pageWidthPx: pageW, pageHeightPx: pageH });
 
     const placedMap = new Map(placed.map((item) => [item.id, item]));
     set({
@@ -298,7 +321,12 @@ export const useImpositionStore = create<ImpositionStore>((set, get) => ({
     }));
   },
 
-  resetCanvasView: () => set({ canvasView: DEFAULT_CANVAS_VIEW }),
+  resetCanvasView: () =>
+    set((state) => ({
+      canvasView: { ...DEFAULT_CANVAS_VIEW, zoom: state.fittedZoom },
+    })),
+
+  setFittedZoom: (zoom) => set({ fittedZoom: zoom }),
 
   setCanvasZoom: (zoom) =>
     set((state) => ({
@@ -311,16 +339,17 @@ export const useImpositionStore = create<ImpositionStore>((set, get) => ({
     })),
 
   exportPdf: async () => {
-    const { items } = get();
+    const { items, pageWidthMm, pageHeightMm } = get();
     const sheetItems = items.filter((item) => item.copies > 0);
     if (sheetItems.length === 0) return;
 
     try {
       const { jsPDF: JsPDF } = await import('jspdf');
+      const orientation = pageWidthMm > pageHeightMm ? 'landscape' : 'portrait';
       const pdf = new JsPDF({
-        orientation: 'portrait',
+        orientation,
         unit: 'mm',
-        format: 'a4',
+        format: [pageWidthMm, pageHeightMm],
       });
 
       sheetItems.forEach((item) => {
@@ -328,11 +357,21 @@ export const useImpositionStore = create<ImpositionStore>((set, get) => ({
         const xMm = pxToMm(item.x);
         const yMm = pxToMm(item.y);
 
+        const rad = (-item.rotation * Math.PI) / 180;
+        const cos = Math.cos(rad);
+        const sin = Math.sin(rad);
+        const nx = xMm + widthMm / 2
+          - (widthMm / 2) * cos
+          + (heightMm / 2) * sin;
+        const ny = yMm - heightMm / 2
+          + (widthMm / 2) * sin
+          + (heightMm / 2) * cos;
+
         pdf.addImage(
           item.src,
           getImageFormat(item.src),
-          xMm,
-          yMm,
+          nx,
+          ny,
           widthMm,
           heightMm,
           undefined,
@@ -371,7 +410,7 @@ export const selectTotalCopies = (state: ImpositionStore) => {
 };
 
 export const selectUtilization = (state: ImpositionStore) =>
-  calculateUtilization(state.items);
+  calculateUtilization(state.items, mmToPx(state.pageWidthMm), mmToPx(state.pageHeightMm));
 
 export const selectCanvasView = (state: ImpositionStore) => state.canvasView;
 

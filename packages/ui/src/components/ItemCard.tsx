@@ -25,9 +25,9 @@ export function ItemCard({ item }: ItemCardProps) {
         item.copies === 0 && 'opacity-60',
       )}
     >
-      <button
-        type="button"
-        className="flex flex-1 items-center gap-3 overflow-hidden text-left"
+      <Button
+        variant="ghost"
+        className="flex flex-1 items-center gap-3 overflow-hidden text-left h-auto justify-start rounded-lg px-2 py-1"
         onClick={() => setSelectedId(item.id)}
       >
         <img
@@ -40,10 +40,10 @@ export function ItemCard({ item }: ItemCardProps) {
             {item.name}
           </p>
           <p className="text-xs text-muted-foreground">
-            {item.copies} {item.copies === 1 ? 'cópia' : 'cópias'}
+            {item.copies} {item.copies === 1 ? 'copy' : 'copies'}
           </p>
         </div>
-      </button>
+      </Button>
 
       <div className="flex shrink-0 items-center gap-0.5">
         <Button
@@ -68,7 +68,7 @@ export function ItemCard({ item }: ItemCardProps) {
           size="icon"
           className="h-7 w-7 text-destructive hover:text-destructive/90"
           onClick={() => removeFromList(item.id)}
-          title="Remover da listagem"
+          title="Remove from list"
         >
           <Trash2 size={14} />
         </Button>
