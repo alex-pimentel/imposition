@@ -1,28 +1,27 @@
 import { test, expect } from '@playwright/test';
 
-const APP_URL = process.env.APP_URL || 'http://localhost:1212';
+const APP_URL = process.env.APP_URL || 'http://localhost:5173';
 
 test.describe('Imposition app', () => {
   test('renders the main layout and controls', async ({ page }) => {
     await page.goto(APP_URL);
 
     await expect(page).toHaveTitle(/Imposition|Hello Electron React/i);
-    await expect(page.getByText('Imposition')).toBeVisible();
-    await expect(page.getByRole('button', { name: /Posicionar automaticamente/i })).toBeVisible();
-    await expect(page.getByRole('button', { name: /Exportar PDF/i })).toBeVisible();
+    await expect(page.getByRole('button', { name: /Auto place/i })).toBeVisible();
+    await expect(page.getByRole('button', { name: /Export PDF/i })).toBeVisible();
   });
 
   test('shows empty state before importing images', async ({ page }) => {
     await page.goto(APP_URL);
-    await expect(page.getByText('Nenhum item selecionado')).toBeVisible();
-    await expect(page.getByText(/itens/i)).toContainText('0 itens');
+    await expect(page.getByText('No item selected')).toBeVisible();
+    await expect(page.getByText('0 items', { exact: true })).toBeVisible();
   });
 
   test('imports images dropped into the upload area', async ({ page }) => {
     await page.goto(APP_URL);
 
     const filePath = 'tests/e2e/assets/sample.png';
-    const dropZone = page.locator('label.upload-button');
+    const dropZone = page.locator('label[for="image-import"]');
 
     await dropZone.evaluate((element) => {
       const dataTransfer = new DataTransfer();
@@ -44,13 +43,13 @@ test.describe('Imposition app', () => {
       );
     });
 
-    await expect(page.getByText('Solte as imagens aqui')).toBeVisible();
+    await expect(page.getByText('Drop images here')).toBeVisible();
 
     await page.locator('#image-import').setInputFiles(filePath);
     await page.locator('#image-import').dispatchEvent('change', {
       bubbles: true,
     });
 
-    await expect(page.getByText(/1 itens/i)).toBeVisible();
+    await expect(page.getByText('1 items', { exact: true })).toBeVisible();
   });
 });

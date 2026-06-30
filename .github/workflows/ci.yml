@@ -61,9 +61,21 @@ jobs:
           cache: npm
       - run: npm ci --include=optional
       - run: npx playwright install --with-deps chromium
+      - name: Start dev server
+        run: npm run dev -w packages/web &
+        timeout-minutes: 1
+      - name: Wait for dev server
+        run: |
+          for i in $(seq 1 30); do
+            curl -s http://localhost:5173 > /dev/null && break
+            sleep 2
+          done
       - run: npx playwright test
         env:
           APP_URL: http://localhost:5173
+      - name: Stop dev server
+        if: always()
+        run: kill $(lsof -t -i:5173) 2>/dev/null || true
 
   build-web:
     name: Build Web
