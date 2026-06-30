@@ -9,6 +9,8 @@
 - `copies`: quantidade de cópias
 - `x` / `y`: posição no layout em pixels ou milímetros
 - `rotation`: rotação aplicada
+- `marginMm`: margem ao redor do item
+- `visibleInSheet`: indica se o item deve ser renderizado na folha de imposição
 
 ## Página
 - `pageSize`: A4 por padrão

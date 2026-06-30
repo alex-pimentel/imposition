@@ -1,4 +1,4 @@
-import { PAGE_WIDTH_PX, PAGE_HEIGHT_PX, DEFAULT_GAP_MM } from './constants';
+import { PAGE_WIDTH_PX, PAGE_HEIGHT_PX, DEFAULT_GAP_MM, DEFAULT_MARGIN_MM } from './constants';
 import type { ImpositionItem } from './types';
 import { mmToPx, roundPxToMm } from './utils';
 
@@ -12,9 +12,10 @@ export const findFreeSpot = (
   items: ImpositionItem[],
   widthMm: number,
   heightMm: number,
+  pageMarginMm = 8,
 ) => {
-  const marginPx = mmToPx(8);
-  const gapPx = mmToPx(4);
+  const marginPx = mmToPx(pageMarginMm);
+  const gapPx = mmToPx(pageMarginMm / 2);
   const stepPx = 8;
   const wPx = mmToPx(widthMm);
   const hPx = mmToPx(heightMm);
@@ -40,19 +41,20 @@ export const findFreeSpot = (
 
 export const placeItems = (
   sourceItems: ImpositionItem[],
-  options: { randomize?: boolean } = {},
+  options: { randomize?: boolean; pageMarginMm?: number } = {},
 ) => {
-  const gapPx = mmToPx(DEFAULT_GAP_MM);
+  const { randomize = false, pageMarginMm } = options;
+  const marginPx = mmToPx(pageMarginMm ?? DEFAULT_MARGIN_MM);
+  const gapPx = mmToPx(pageMarginMm !== undefined ? pageMarginMm / 2 : DEFAULT_GAP_MM);
   const items = sourceItems.map((item) => ({ ...item }));
 
   let cursorX = 0;
   let cursorY = 0;
   let rowHeight = 0;
 
-  const withRandom = options.randomize === true;
+  const withRandom = randomize;
 
   items.forEach((item) => {
-    const marginPx = mmToPx(item.marginMm);
     const widthPx = mmToPx(item.widthMm);
     const heightPx = mmToPx(item.heightMm);
 
