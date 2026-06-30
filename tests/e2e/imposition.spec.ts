@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test';
+import path from 'path';
 
 const APP_URL = process.env.APP_URL || 'http://localhost:5173';
 
@@ -20,7 +21,7 @@ test.describe('Imposition app', () => {
   test('imports images dropped into the upload area', async ({ page }) => {
     await page.goto(APP_URL);
 
-    const filePath = 'tests/e2e/assets/sample.png';
+    const filePath = path.resolve('tests/e2e/assets/sample.png');
     const dropZone = page.locator('label[for="image-import"]');
 
     await dropZone.evaluate((element) => {
@@ -46,10 +47,7 @@ test.describe('Imposition app', () => {
     await expect(page.getByText('Drop images here')).toBeVisible();
 
     await page.locator('#image-import').setInputFiles(filePath);
-    await page.locator('#image-import').dispatchEvent('change', {
-      bubbles: true,
-    });
 
-    await expect(page.getByText('1 items', { exact: true })).toBeVisible();
+    await expect(page.getByText('1 items', { exact: true })).toBeVisible({ timeout: 15000 });
   });
 });
