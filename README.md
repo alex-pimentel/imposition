@@ -18,8 +18,7 @@
 
   <p>
     <a href="https://github.com/alex-pimentel/imposition/actions/workflows/ci.yml"><img src="https://github.com/alex-pimentel/imposition/actions/workflows/ci.yml/badge.svg?branch=main" alt="CI"></a>
-    <a href="https://github.com/alex-pimentel/imposition/actions/workflows/lint.yml"><img src="https://github.com/alex-pimentel/imposition/actions/workflows/lint.yml/badge.svg?branch=main" alt="Lint"></a>
-    <a href="https://github.com/alex-pimentel/imposition/actions/workflows/build.yml"><img src="https://github.com/alex-pimentel/imposition/actions/workflows/build.yml/badge.svg?branch=main" alt="Build"></a>
+    <a href="https://github.com/alex-pimentel/imposition/actions/workflows/build-electron.yml"><img src="https://github.com/alex-pimentel/imposition/actions/workflows/build-electron.yml/badge.svg" alt="Build Electron"></a>
   </p>
 </div>
 
@@ -191,17 +190,10 @@ docker compose up --build              # Docker web serve
 
 ## ☁️ Deploy
 
-The web version is deployed on **Cloudflare Pages**.
+The web version is deployed on **Cloudflare Pages** via GitHub Actions on merge to `main`.
 [![Cloudflare Pages](https://img.shields.io/badge/Cloudflare%20Pages-F38020?style=for-the-badge&logo=Cloudflare&logoColor=white)](https://pages.cloudflare.com/)
 
-Manual deploy:
-
-```bash
-npm run build -w packages/web
-npx wrangler pages deploy packages/web/dist --project-name=imposition
-```
-
-The desktop version can be packaged with `electron-builder` for Windows, macOS, and Linux.
+The desktop version can be built manually via the [Build Electron](https://github.com/alex-pimentel/imposition/actions/workflows/build-electron.yml) workflow on GitHub Actions.
 
 ---
 
