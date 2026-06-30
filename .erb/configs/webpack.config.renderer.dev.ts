@@ -26,10 +26,7 @@ const skipDLLs =
 /**
  * Warn if the DLL is not built
  */
-if (
-  !skipDLLs &&
-  !(fs.existsSync(webpackPaths.dllPath) && fs.existsSync(manifest))
-) {
+if (!skipDLLs && !(fs.existsSync(webpackPaths.dllPath) && fs.existsSync(manifest))) {
   console.log(
     chalk.black.bgYellow.bold(
       'The DLL files are missing. Sit back while we build them for you with "npm run build-dll"',
@@ -71,16 +68,17 @@ const configuration: webpack.Configuration = {
             options: {
               modules: true,
               sourceMap: true,
-              importLoaders: 1,
+              importLoaders: 2,
             },
           },
+          'postcss-loader',
           'sass-loader',
         ],
         include: /\.module\.s?(c|a)ss$/,
       },
       {
         test: /\.s?css$/,
-        use: ['style-loader', 'css-loader', 'sass-loader'],
+        use: ['style-loader', 'css-loader', 'postcss-loader', 'sass-loader'],
         exclude: /\.module\.s?(c|a)ss$/,
       },
       // Fonts
@@ -192,9 +190,7 @@ const configuration: webpack.Configuration = {
       console.log('Starting Main Process...');
       let args = ['run', 'start:main'];
       if (process.env.MAIN_ARGS) {
-        args = args.concat(
-          ['--', ...process.env.MAIN_ARGS.matchAll(/"[^"]+"|[^\s"]+/g)].flat(),
-        );
+        args = args.concat(['--', ...process.env.MAIN_ARGS.matchAll(/"[^"]+"|[^\s"]+/g)].flat());
       }
       spawn('npm', args, {
         shell: true,

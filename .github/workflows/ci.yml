@@ -2,21 +2,19 @@ name: CI
 
 on:
   push:
-    branches: [main]
+    branches: [main, master]
   pull_request:
-    branches: [main]
-  workflow_dispatch:
+    branches: [main, master]
 
 jobs:
-  lint:
-    uses: ./.github/workflows/lint.yml
-
-  build:
-    needs: [lint]
-    uses: ./.github/workflows/build.yml
-
-  deploy-pages:
-    needs: [build]
-    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-    uses: ./.github/workflows/deploy-web.yml
-    secrets: inherit
+  lint-and-format:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: npm
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run format

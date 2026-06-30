@@ -16,12 +16,9 @@ export {
   visualBBox,
   makeId,
   clampPosition,
+  mmToUnit,
+  unitToMm,
 } from './utils';
 export { findFreeSpot, placeItems } from './layout';
-export {
-  getDefaultSizeMm,
-  readImageData,
-  isAcceptedImageFile,
-  getImageFormat,
-} from './image';
+export { getDefaultSizeMm, readImageData, isAcceptedImageFile, getImageFormat } from './image';
 export { calculateUtilization } from './calculations';

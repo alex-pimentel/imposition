@@ -1,20 +1,23 @@
-# Testes e validação
+# Testing and Validation
 
-## Validação manual
-- importar imagens com arraste e soltar
-- ajustar tamanho por item
-- testar duplicação e cópias
-- aplicar posicionamento automático
-- verificar exportação para PDF
+## Manual validation
 
-## Casos críticos
-- imagens muito grandes
-- arquivos com extensão inválida
-- itens com tamanho maior que a página
-- layout com sobreposição
+- import images via drag and drop
+- adjust size per item
+- test duplication and copies
+- apply auto placement
+- verify PDF export
+
+## Critical cases
+
+- very large images
+- files with invalid extensions
+- items larger than the page
+- overlapping layout
 
 ## Checklist
-- [ ] preview atualizado corretamente
-- [ ] PDF gerado sem cortes
-- [ ] aproveitamento exibido com valor coerente
-- [ ] drag-and-drop funciona em ambientes Windows/WSL
+
+- [ ] preview updated correctly
+- [ ] PDF generated without clipping
+- [ ] utilization displayed with consistent value
+- [ ] drag-and-drop works on Windows/WSL

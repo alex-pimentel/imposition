@@ -46,8 +46,7 @@ export const readImageData = (
   });
 
 export const isAcceptedImageFile = (file: File) =>
-  /^image\/(png|jpe?g|webp)$/i.test(file.type) ||
-  /\.(png|jpe?g|jpg|webp)$/i.test(file.name);
+  /^image\/(png|jpe?g|webp)$/i.test(file.type) || /\.(png|jpe?g|jpg|webp)$/i.test(file.name);
 
 export const getImageFormat = (src: string) => {
   if (src.startsWith('data:image/png')) return 'PNG';

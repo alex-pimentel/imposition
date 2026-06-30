@@ -1,10 +1,11 @@
 # Dev Docs
 
-Este diretório reúne a documentação técnica e operacional do projeto de imposição desktop com Electron.
+This directory contains the technical and operational documentation for the desktop imposition project built with Electron.
 
-## Conteúdo
-- `architecture.md` — visão geral da arquitetura do app
-- `workflow.md` — fluxo de uso esperado da aplicação
-- `data-model.md` — modelo de dados do layout
-- `pdf-export.md` — detalhes do processo de exportação para PDF
-- `testing.md` — checklist de validação manual e automação
+## Contents
+
+- `architecture.md` — overview of the app architecture
+- `workflow.md` — expected usage flow of the application
+- `data-model.md` — layout data model
+- `pdf-export.md` — details of the PDF export process
+- `testing.md` — manual validation checklist and automation

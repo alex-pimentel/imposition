@@ -1,18 +1,15 @@
-import { useMemo } from 'react';
 import { useImpositionStore, selectTotalCopies, selectUtilization } from '../store';
 
 export function StatsCard() {
-  const items = useImpositionStore((s) => s.items);
   const totalCopies = useImpositionStore(selectTotalCopies);
   const utilization = useImpositionStore(selectUtilization);
-  const parentItems = useMemo(() => items.filter((item) => !item.parentId), [items]);
 
   return (
-    <div className="stats-card">
-      <span>
-        {parentItems.length} imagens · {totalCopies} itens
+    <div className="flex items-center justify-between rounded-xl border border-sidebar-border bg-sidebar-accent/50 px-4 py-3 text-sm">
+      <span className="text-sidebar-foreground/80">{totalCopies} items</span>
+      <span className="font-medium text-sidebar-foreground">
+        {utilization.toFixed(1)}% utilization
       </span>
-      <span>{utilization.toFixed(1)}% aproveitamento</span>
     </div>
   );
 }

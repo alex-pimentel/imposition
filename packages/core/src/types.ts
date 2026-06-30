@@ -11,5 +11,4 @@ export type ImpositionItem = {
   x: number;
   y: number;
   rotation: number;
-  marginMm: number;
 };

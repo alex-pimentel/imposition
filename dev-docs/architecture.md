@@ -1,26 +1,32 @@
-# Arquitetura
+# Architecture
 
-## Visão geral
-O projeto usa Electron com React e TypeScript. A aplicação é dividida entre:
-- processo principal (`src/main`)
-- processo de renderização (`src/renderer`)
-- preload para comunicação segura
+## Overview
 
-## Responsabilidades
-### Processo principal
-- criar e controlar a janela da aplicação
-- lidar com arquivos e exportação
-- acessar sistema de arquivos e recursos locais
+The project uses Electron with React and TypeScript. The application is divided into:
 
-### Processo de renderização
-- montar a interface do usuário
-- gerenciar estado da composição
-- exibir preview da página A4
-- permitir edição manual e automática
+- main process (`src/main`)
+- renderer process (`src/renderer`)
+- preload for secure communication
 
-## Estrutura sugerida para evolução
-- `src/renderer/components` — componentes visuais
-- `src/renderer/hooks` — hooks reutilizáveis
-- `src/renderer/state` — estado da aplicação
-- `src/main/ipc` — handlers IPC
-- `src/shared` — tipos e utilidades compartilhadas
+## Responsibilities
+
+### Main process
+
+- create and control the application window
+- handle files and export
+- access file system and local resources
+
+### Renderer process
+
+- build the user interface
+- manage composition state
+- display the A4 page preview
+- allow manual and automatic editing
+
+## Suggested structure for evolution
+
+- `src/renderer/components` — visual components
+- `src/renderer/hooks` — reusable hooks
+- `src/renderer/state` — application state
+- `src/main/ipc` — IPC handlers
+- `src/shared` — shared types and utilities

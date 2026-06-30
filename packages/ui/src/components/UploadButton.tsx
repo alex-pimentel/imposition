@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { FiUploadCloud } from 'react-icons/fi';
+import { UploadCloud } from 'lucide-react';
 import { useImpositionStore } from '../store';
+import { cn } from '../lib/utils';
 
 export function UploadButton() {
   const addImages = useImpositionStore((s) => s.addImages);
@@ -43,23 +44,25 @@ export function UploadButton() {
   return (
     <label
       htmlFor="image-import"
-      className={isDragging ? 'upload-button dragging' : 'upload-button'}
+      className={cn(
+        'flex min-h-[72px] cursor-pointer flex-col items-center justify-center gap-2 rounded-xl border border-dashed border-border bg-secondary/50 px-4 py-4 text-center transition-colors hover:border-primary/50 hover:bg-secondary',
+        isDragging && 'border-primary bg-primary/10',
+      )}
       onDragEnter={handleDragEnter}
       onDragOver={handleDragOver}
       onDragLeave={handleDragLeave}
       onDrop={handleDrop}
     >
-      <FiUploadCloud size={18} />
-      <span className="upload-text">
-        {isDragging
-          ? 'Solte as imagens aqui'
-          : 'Arraste imagens aqui ou clique para importar'}
+      <UploadCloud size={20} className="text-muted-foreground" />
+      <span className="text-xs font-medium text-muted-foreground">
+        {isDragging ? 'Drop images here' : 'Drag or click to import'}
       </span>
       <input
         id="image-import"
         type="file"
         accept="image/png,image/jpeg,image/jpg,image/webp"
         multiple
+        className="hidden"
         onChange={(event) => addImages(event.target.files)}
       />
     </label>

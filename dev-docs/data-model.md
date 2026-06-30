@@ -1,17 +1,18 @@
-# Modelo de dados
+# Data Model
 
-## Item de imagem
-- `id`: identificador único
-- `name`: nome do arquivo
-- `src`: caminho ou URL base64 do arquivo
-- `naturalWidth` / `naturalHeight`: dimensões reais da imagem
-- `widthMm` / `heightMm`: tamanho usado no layout
-- `copies`: quantidade de cópias
-- `x` / `y`: posição no layout em pixels ou milímetros
-- `rotation`: rotação aplicada
+## Image item
 
-## Página
-- `pageSize`: A4 por padrão
-- `marginsMm`: margem da área de impressão
-- `gapMm`: espaçamento entre itens
-- `layoutMode`: manual ou automático
+- `id`: unique identifier
+- `name`: file name
+- `src`: file path or base64 URL
+- `naturalWidth` / `naturalHeight`: actual image dimensions
+- `widthMm` / `heightMm`: size used in the layout
+- `copies`: number of copies
+- `x` / `y`: position in the layout in pixels or millimeters
+- `rotation`: applied rotation
+
+## Page
+
+- `pageSize`: defaults to A4
+- `pageMarginMm`: page-level margin applied during auto placement
+- `layoutMode`: manual or automatic

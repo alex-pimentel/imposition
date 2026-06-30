@@ -1,16 +1,19 @@
-# Exportação para PDF
+# PDF Export
 
-## Objetivo
-Gerar um documento final com o layout definido pelo usuário.
+## Goal
 
-## Processo esperado
-1. Converter o preview visual para coordenadas reais em milímetros.
-2. Inserir cada item na página correspondente.
-3. Ajustar rotação e escala conforme os valores configurados.
-4. Salvar o PDF com nome padrão como `imposicao.pdf`.
+Generate a final document with the layout defined by the user.
 
-## Pontos de atenção
-- preservar proporção da imagem
-- respeitar margens da página
-- evitar itens fora dos limites
-- permitir exportação por página ou por projeto completo
+## Expected process
+
+1. Convert the visual preview to real coordinates in millimeters.
+2. Insert each item on the corresponding page.
+3. Adjust rotation and scale according to the configured values.
+4. Save the PDF with a default name like `layout.pdf`.
+
+## Points of attention
+
+- preserve image aspect ratio
+- respect page margins
+- prevent items from going out of bounds
+- allow export per page or per full project

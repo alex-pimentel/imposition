@@ -1,20 +1,22 @@
-import { PAGE_WIDTH_PX, PAGE_HEIGHT_PX, DEFAULT_GAP_MM } from './constants';
+import { PAGE_WIDTH_PX, PAGE_HEIGHT_PX, DEFAULT_GAP_MM, DEFAULT_MARGIN_MM } from './constants';
 import type { ImpositionItem } from './types';
 import { mmToPx, roundPxToMm } from './utils';
 
 const rectsOverlap = (
   a: { left: number; top: number; right: number; bottom: number },
   b: { left: number; top: number; right: number; bottom: number },
-) =>
-  a.left < b.right && a.right > b.left && a.top < b.bottom && a.bottom > b.top;
+) => a.left < b.right && a.right > b.left && a.top < b.bottom && a.bottom > b.top;
 
 export const findFreeSpot = (
   items: ImpositionItem[],
   widthMm: number,
   heightMm: number,
+  pageMarginMm = 8,
+  pageWidthPx = PAGE_WIDTH_PX,
+  pageHeightPx = PAGE_HEIGHT_PX,
 ) => {
-  const marginPx = mmToPx(8);
-  const gapPx = mmToPx(4);
+  const marginPx = mmToPx(pageMarginMm);
+  const gapPx = mmToPx(pageMarginMm / 2);
   const stepPx = 8;
   const wPx = mmToPx(widthMm);
   const hPx = mmToPx(heightMm);
@@ -26,8 +28,8 @@ export const findFreeSpot = (
     bottom: item.y + mmToPx(item.heightMm) + gapPx,
   }));
 
-  for (let y = marginPx; y + hPx <= PAGE_HEIGHT_PX - marginPx; y += stepPx) {
-    for (let x = marginPx; x + wPx <= PAGE_WIDTH_PX - marginPx; x += stepPx) {
+  for (let y = marginPx; y + hPx <= pageHeightPx - marginPx; y += stepPx) {
+    for (let x = marginPx; x + wPx <= pageWidthPx - marginPx; x += stepPx) {
       const candidate = { left: x, top: y, right: x + wPx, bottom: y + hPx };
       if (!occupied.some((r) => rectsOverlap(candidate, r))) {
         return { x: roundPxToMm(x), y: roundPxToMm(y) };
@@ -40,24 +42,35 @@ export const findFreeSpot = (
 
 export const placeItems = (
   sourceItems: ImpositionItem[],
-  options: { randomize?: boolean } = {},
+  options: {
+    randomize?: boolean;
+    pageMarginMm?: number;
+    pageWidthPx?: number;
+    pageHeightPx?: number;
+  } = {},
 ) => {
-  const gapPx = mmToPx(DEFAULT_GAP_MM);
+  const {
+    randomize = false,
+    pageMarginMm,
+    pageWidthPx = PAGE_WIDTH_PX,
+    pageHeightPx = PAGE_HEIGHT_PX,
+  } = options;
+  const marginPx = mmToPx(pageMarginMm ?? DEFAULT_MARGIN_MM);
+  const gapPx = mmToPx(pageMarginMm !== undefined ? pageMarginMm / 2 : DEFAULT_GAP_MM);
   const items = sourceItems.map((item) => ({ ...item }));
 
   let cursorX = 0;
   let cursorY = 0;
   let rowHeight = 0;
 
-  const withRandom = options.randomize === true;
+  const withRandom = randomize;
 
   items.forEach((item) => {
-    const marginPx = mmToPx(item.marginMm);
     const widthPx = mmToPx(item.widthMm);
     const heightPx = mmToPx(item.heightMm);
 
-    const rightBoundary = PAGE_WIDTH_PX - marginPx;
-    const bottomBoundary = PAGE_HEIGHT_PX - marginPx;
+    const rightBoundary = pageWidthPx - marginPx;
+    const bottomBoundary = pageHeightPx - marginPx;
 
     if (cursorX === 0 && cursorY === 0) {
       cursorX = marginPx;
