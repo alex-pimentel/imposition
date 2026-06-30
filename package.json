@@ -44,5 +44,8 @@
   },
   "engines": {
     "node": ">=18.x"
+  },
+  "dependencies": {
+    "electron": "43.0.0"
   }
 }
