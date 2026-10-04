@@ -1,6 +1,6 @@
 {
   "name": "imposition",
-  "description": "A4 image imposition and PDF export — Electron + Web",
+  "description": "A4 image imposition and PDF export \u2014 Electron + Web",
   "keywords": [
     "electron",
     "imposition",
@@ -60,5 +60,30 @@
   },
   "dependencies": {
     "electron": "^43.7.7"
+  },
+  "overrides": {
+    "undici": "^7.30.0",
+    "nanoid": "^3.3.19",
+    "browserslist": "^4.29.3",
+    "brace-expansion": "^2.0.2",
+    "braces": "^3.0.3",
+    "micromatch": "^4.0.8",
+    "chokidar": "^3.6.0",
+    "postcss": "^8.5.28",
+    "tar": "^7.5.22",
+    "js-yaml": "^4.3.2",
+    "fast-uri": "^3.1.8",
+    "http-cache-semantics": "^4.3.0",
+    "shell-quote": "^1.12.0",
+    "svgo": "^4.1.0",
+    "image-size": "^2.0.4",
+    "@xmldom/xmldom": "^0.9.12",
+    "@clerk/clerk-react": "^5.61.10",
+    "concurrently": "^10.0.5",
+    "electronmon": "^2.0.4",
+    "watchboy": "^0.4.3",
+    "sass": "^1.105.1",
+    "webpack-dev-server": "^5.2.6",
+    "http-proxy-middleware": "^3.0.7"
   }
 }
