@@ -1,0 +1,5 @@
+@import 'tailwindcss';
+@import '@agenteresolve/ui/styles.css';
+@import '@imposition/ui/styles.css';
+
+@source './vendor/agenteresolve-ui/index.js';
