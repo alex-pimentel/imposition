@@ -59,6 +59,6 @@
     "node": ">=18.x"
   },
   "dependencies": {
-    "electron": "^43.7.7"
+    "electron": "^44.5.1"
   }
 }
