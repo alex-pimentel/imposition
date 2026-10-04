@@ -9,3 +9,4 @@ This directory contains the technical and operational documentation for the desk
 - `data-model.md` — layout data model
 - `pdf-export.md` — details of the PDF export process
 - `testing.md` — manual validation checklist and automation
+- `shared-shell.md` — shared Agenteresolve UI shell + optional Clerk login
