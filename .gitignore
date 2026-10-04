@@ -11,3 +11,6 @@ coverage
 *.sass.d.ts
 *.scss.d.ts
 .wrangler
+playwright-report
+test-results
+*.tsbuildinfo
