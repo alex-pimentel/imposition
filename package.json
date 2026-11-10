@@ -59,7 +59,7 @@
     "node": ">=18.x"
   },
   "dependencies": {
-    "electron": "^43.8.1"
+    "electron": "^45.0.0"
   },
   "overrides": {
     "undici": "^7.30.0",
